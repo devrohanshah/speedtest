@@ -30,8 +30,13 @@ body {
 }
 
 .loader-widget {
-    width: 360px;
-    height: 420px;
+    width: 100%; /* Adjust the width for responsiveness */
+    max-width: 360px; /* Limit the maximum width */
+    height: auto; /* Adjust height automatically */
+    text-align: center;
+    margin: 0 auto; /* Center horizontally */
+}
+
 }
 
 .loader {
@@ -144,6 +149,16 @@ body {
  .content small {
     font-size: 40%;
  }
+/* Responsive styles */
+@media (max-width: 768px) {
+    .container {
+        padding: 16px; /* Reduce padding for smaller screens */
+    }
+
+    .loader-widget {
+        max-width: 80%; /* Adjust the maximum width for smaller screens */
+    }
+
 /* styles.css */
 
 /* Navbar styles */
@@ -158,8 +173,8 @@ body {
     /* Apply a circular mask to the logo */
     border-radius: 50%;
     overflow: hidden;
-    width: 60px;
-    height: 60px; /* Make sure height matches width to create a perfect circle */
+    width: 40px;
+    height: 40px; /* Make sure height matches width to create a perfect circle */
 }
 
 .logo img {
@@ -174,13 +189,13 @@ body {
 }
 
 .nav-item {
-    margin: 0 20px;
+    margin: 0 10px;
 }
 
 .nav-item a {
     text-decoration: none;
     color: white;
-    font-size: 18px;
+    font-size: 16px;
 }
 
 /* Style for the active link (if needed) */
