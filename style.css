@@ -148,27 +148,35 @@ body {
 
 /* Navbar styles */
 .navbar {
-    background-color: #333; /* Set your desired background color */
-    padding: 20px; /* Increase the padding to make the navbar taller */
+    background-color: #333;
+    padding: 20px;
+    display: flex;
+    align-items: center; /* Vertically center content */
+}
+
+.logo img {
+    width: 50px; /* Adjust the width of the logo */
+    height: auto; /* Maintain aspect ratio */
+    margin-right: 20px; /* Add spacing between logo and navigation */
 }
 
 .nav-list {
     list-style: none;
     padding: 0;
     display: flex;
-    justify-content: flex-end; /* Align content to the right */
+    justify-content: flex-end;
     align-items: center;
     margin: 0;
 }
 
 .nav-item {
-    margin: 0 30px; /* Adjust the spacing between items as needed */
+    margin: 0 20px;
 }
 
 .nav-item a {
     text-decoration: none;
-    color: white; /* Set the text color for your navigation links */
-    font-size: 15px; /* Increase the font size for navigation links */
+    color: white;
+    font-size: 18px;
 }
 
 /* Style for the active link (if needed) */
