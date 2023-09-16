@@ -154,9 +154,16 @@ body {
     justify-content: space-between; /* Separate content to the left and right */
     align-items: center;
 }
+.logo {
+    /* Apply a circular mask to the logo */
+    border-radius: 50%;
+    overflow: hidden;
+    width: 50px;
+    height: 50px; /* Make sure height matches width to create a perfect circle */
+}
 
 .logo img {
-    width: 50px;
+    width: 100%;
     height: auto;
 }
 
