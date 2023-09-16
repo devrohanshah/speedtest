@@ -155,13 +155,13 @@ body {
     list-style: none;
     padding: 0;
     display: flex;
-    justify-content: space-between;
-    align-items: right;
+    justify-content: flex-end;
+    align-items: centre;
     margin: 0;
 }
 
 .nav-item {
-    margin: 0 5px; /* Adjust the spacing between items as needed */
+    margin: 0 10px; /* Adjust the spacing between items as needed */
 }
 
 .nav-item a {
