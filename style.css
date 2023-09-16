@@ -158,8 +158,8 @@ body {
     /* Apply a circular mask to the logo */
     border-radius: 50%;
     overflow: hidden;
-    width: 30px;
-    height: 30px; /* Make sure height matches width to create a perfect circle */
+    width: 60px;
+    height: 60px; /* Make sure height matches width to create a perfect circle */
 }
 
 .logo img {
@@ -174,13 +174,13 @@ body {
 }
 
 .nav-item {
-    margin: 0 10px;
+    margin: 0 20px;
 }
 
 .nav-item a {
     text-decoration: none;
     color: white;
-    font-size: 14px;
+    font-size: 18px;
 }
 
 /* Style for the active link (if needed) */
