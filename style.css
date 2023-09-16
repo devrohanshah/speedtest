@@ -149,7 +149,7 @@ body {
 /* Navbar styles */
 .navbar {
     background-color: #333;
-    padding: 20px;
+    padding: 100px;
     display: flex;
     justify-content: space-between; /* Separate content to the left and right */
     align-items: center;
@@ -158,8 +158,8 @@ body {
     /* Apply a circular mask to the logo */
     border-radius: 50%;
     overflow: hidden;
-    width: 50px;
-    height: 50px; /* Make sure height matches width to create a perfect circle */
+    width: 30px;
+    height: 30px; /* Make sure height matches width to create a perfect circle */
 }
 
 .logo img {
@@ -174,13 +174,13 @@ body {
 }
 
 .nav-item {
-    margin: 0 20px;
+    margin: 0 10px;
 }
 
 .nav-item a {
     text-decoration: none;
     color: white;
-    font-size: 18px;
+    font-size: 14px;
 }
 
 /* Style for the active link (if needed) */
