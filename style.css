@@ -149,7 +149,7 @@ body {
 /* Navbar styles */
 .navbar {
     background-color: #333;
-    padding: 100px;
+    padding: 15px;
     display: flex;
     justify-content: space-between; /* Separate content to the left and right */
     align-items: center;
