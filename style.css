@@ -168,7 +168,7 @@ body {
 .nav-item a {
     text-decoration: none;
     color: white; /* Set the text color for your navigation links */
-    font-size: 18px; /* Increase the font size for navigation links */
+    font-size: 15px; /* Increase the font size for navigation links */
 }
 
 /* Style for the active link (if needed) */
