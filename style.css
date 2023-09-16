@@ -144,3 +144,32 @@ body {
  .content small {
     font-size: 40%;
  }
+/* styles.css */
+
+/* Navbar styles */
+.navbar {
+    background-color: #333; /* Set your desired background color */
+}
+
+.nav-list {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0;
+}
+
+.nav-item {
+    margin: 0 10px; /* Adjust the spacing between items as needed */
+}
+
+.nav-item a {
+    text-decoration: none;
+    color: white; /* Set the text color for your navigation links */
+}
+
+/* Style for the active link (if needed) */
+.nav-item a:hover {
+    text-decoration: underline;
+}
