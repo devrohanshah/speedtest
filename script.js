@@ -71,3 +71,27 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     }
 });
+// Your code to interact with the chatbot API
+function sendMessage(userMessage) {
+    // Make an API request and get the chatbot's response
+    const chatbotResponse = "Chatbot: This is a sample response."; // Replace with actual API call
+
+    // Display the response in the chat interface
+    appendMessage(userMessage, "user");
+    appendMessage(chatbotResponse, "chatbot");
+}
+
+function appendMessage(message, sender) {
+    const chatLog = document.getElementById("chat-log");
+    const messageDiv = document.createElement("div");
+    messageDiv.classList.add(sender);
+    messageDiv.textContent = message;
+    chatLog.appendChild(messageDiv);
+}
+
+document.getElementById("send-button").addEventListener("click", function () {
+    const userMessage = document.getElementById("user-input").value;
+    appendMessage(userMessage, "user");
+    sendMessage(userMessage);
+});
+
