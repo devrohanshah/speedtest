@@ -193,3 +193,101 @@ body {
 .nav-item a:hover {
     text-decoration: underline;
 }
+/* style.css */
+
+/* Footer styles */
+footer {
+    background-color: #333;
+    color: white;
+    padding: 40px 0;
+}
+
+/* Footer container styles */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Grid layout styles */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 20px;
+}
+
+@media (min-width: 768px) {
+    .grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 1024px) {
+    .grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* Photo section styles */
+.photo-section img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+}
+
+/* Section title styles */
+h2 {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+/* Contact info styles */
+.contact-info p {
+    margin-bottom: 10px;
+}
+
+/* Social links styles */
+.social-links ul {
+    list-style: none;
+    padding: 0;
+}
+
+.social-links li {
+    margin-bottom: 5px;
+}
+
+.social-links a {
+    text-decoration: none;
+    color: white;
+}
+
+.social-links a:hover {
+    color: #007BFF;
+}
+
+/* Responsive styles for smaller screens */
+@media (max-width: 767px) {
+    .grid {
+        grid-template-columns: repeat(1, 1fr);
+    }
+    
+    h2 {
+        font-size: 20px;
+    }
+}
+
+/* Responsive styles for tablets */
+@media (min-width: 768px) and (max-width: 1023px) {
+    .container {
+        padding: 0 10px;
+    }
+}
+
+/* Responsive styles for larger screens */
+@media (min-width: 1024px) {
+    h2 {
+        font-size: 28px;
+    }
+}
