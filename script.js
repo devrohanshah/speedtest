@@ -528,3 +528,22 @@ document.getElementById('saveBtn').addEventListener('click', function() {
                 });
             }
         });
+
+async function fetchISPDetails() {
+    try {
+      const response = await fetch('https://ipapi.co/json/');
+      const data = await response.json();
+
+      document.getElementById('ispInfo').textContent = data.org || 'N/A';
+      document.getElementById('ipInfo').textContent = data.ip || 'N/A';
+      document.getElementById('serverInfo').textContent = `${data.city}, ${data.country_name}` || 'N/A';
+    } catch (error) {
+      console.error("Failed to fetch ISP details:", error);
+      document.getElementById('ispInfo').textContent = 'Unavailable';
+      document.getElementById('ipInfo').textContent = 'Unavailable';
+      document.getElementById('serverInfo').textContent = 'Unavailable';
+    }
+  }
+
+  // Trigger fetch on page load
+  window.addEventListener('DOMContentLoaded', fetchISPDetails);
