@@ -159,9 +159,9 @@ function fetchNetworkInfo() {
     // In a real app, you would fetch this from an API
     // For demonstration purposes, we'll use placeholder data
     setTimeout(() => {
-        ispInfo.textContent = 'Sample ISP Provider';
-        serverInfo.textContent = selectedServer;
-        ipInfo.textContent = '192.168.x.x';
+        ispInfo.textContent = '';
+        serverInfo.textContent = ;
+        ipInfo.textContent = '';
     }, 1000);
 }
 
