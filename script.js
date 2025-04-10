@@ -154,16 +154,16 @@ function hideStartButton() {
     startTestBtn.style.display = 'none';
 }
 
-// Network Information
-function fetchNetworkInfo() {
-    // In a real app, you would fetch this from an API
-    // For demonstration purposes, we'll use placeholder data
-    setTimeout(() => {
-        ispInfo.textContent = '';
-        serverInfo.textContent = ;
-        ipInfo.textContent = '';
-    }, 1000);
-}
+// // Network Information
+// function fetchNetworkInfo() {
+//     // In a real app, you would fetch this from an API
+//     // For demonstration purposes, we'll use placeholder data
+//     setTimeout(() => {
+//         ispInfo.textContent = '';
+//         serverInfo.textContent = ;
+//         ipInfo.textContent = '';
+//     }, 1000);
+// }
 
 // Speed Test Functions
 function startSpeedTest() {
