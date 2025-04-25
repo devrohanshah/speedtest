@@ -4,8 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <link rel="icon" href="favicon.png" type="image/png">
-  <title>SpeedTest - Check Your Internet Speed</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <title>SpeedTest - Message Sent</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <style>
     * {
       margin: 0;
@@ -15,118 +16,305 @@
     }
 
     body {
-      background: linear-gradient(135deg, #1f1c2c, #928dab);
+      background: linear-gradient(135deg, #4b6cb7, #182848);
       min-height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
       overflow: hidden;
+      position: relative;
+    }
+
+    /* Animated background elements */
+    .background-shapes div {
+      position: absolute;
+      border-radius: 50%;
+      opacity: 0.15;
+      filter: blur(5px);
+      animation: float 10s infinite ease-in-out;
+    }
+
+    .shape1 {
+      width: 100px;
+      height: 100px;
+      background: #8e9efc;
+      top: 10%;
+      left: 10%;
+      animation-delay: 0s !important;
+    }
+
+    .shape2 {
+      width: 150px;
+      height: 150px;
+      background: #4b6cb7;
+      bottom: 15%;
+      right: 10%;
+      animation-delay: 2s !important;
+    }
+
+    .shape3 {
+      width: 80px;
+      height: 80px;
+      background: #00c9a7;
+      top: 50%;
+      left: 20%;
+      animation-delay: 1s !important;
+    }
+
+    .shape4 {
+      width: 120px;
+      height: 120px;
+      background: #8e9efc;
+      bottom: 20%;
+      left: 30%;
+      animation-delay: 3s !important;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-20px) rotate(5deg); }
+      100% { transform: translateY(0) rotate(0deg); }
     }
 
     .card {
       background: rgba(255, 255, 255, 0.1);
       backdrop-filter: blur(15px);
-      border-radius: 20px;
-      padding: 50px;
-      max-width: 500px;
+      border-radius: 24px;
+      padding: 60px;
+      max-width: 550px;
       width: 90%;
       text-align: center;
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-      animation: slideFade 1s ease forwards;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      z-index: 10;
+      overflow: hidden;
+      position: relative;
+      animation: appear 0.8s cubic-bezier(0.19, 1, 0.22, 1) forwards;
     }
 
-    @keyframes slideFade {
-      0% {
-        opacity: 0;
-        transform: translateY(40px);
-      }
-      100% {
-        opacity: 1;
-        transform: translateY(0);
-      }
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+      opacity: 0;
+      animation: shine 4s ease-in-out infinite;
     }
 
-    .checkmark {
-      width: 100px;
-      height: 100px;
+    @keyframes shine {
+      0%, 100% { opacity: 0; transform: translateY(100%); }
+      50% { opacity: 0.3; transform: translateY(-30%); }
+    }
+
+    @keyframes appear {
+      0% { transform: translateY(50px); opacity: 0; }
+      100% { transform: translateY(0); opacity: 1; }
+    }
+
+    .success-icon {
+      position: relative;
+      width: 120px;
+      height: 120px;
+      margin: 0 auto 35px;
+    }
+
+    .circle {
+      width: 100%;
+      height: 100%;
       border-radius: 50%;
-      background: #00c9a7;
+      background: linear-gradient(45deg, #00c9a7, #3ad59f);
       display: flex;
       align-items: center;
       justify-content: center;
-      margin: 0 auto 30px;
       position: relative;
-      box-shadow: 0 0 20px rgba(0, 201, 167, 0.5);
+      box-shadow: 0 5px 25px rgba(0, 201, 167, 0.5);
+      animation: pulse 2s infinite;
     }
 
-    .checkmark::after {
-      content: '✔';
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(0, 201, 167, 0.6); }
+      70% { box-shadow: 0 0 0 15px rgba(0, 201, 167, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(0, 201, 167, 0); }
+    }
+
+    .checkmark {
       color: white;
-      font-size: 50px;
-      animation: pop 0.6s ease-in-out;
+      font-size: 60px;
+      opacity: 0;
+      animation: check 0.8s 0.3s forwards;
     }
 
-    @keyframes pop {
-      0% { transform: scale(0); opacity: 0; }
-      100% { transform: scale(1); opacity: 1; }
+    @keyframes check {
+      from { opacity: 0; transform: scale(0.5); }
+      to { opacity: 1; transform: scale(1); }
     }
 
     h1 {
-      color: #fff;
-      font-size: 2rem;
+      color: white;
+      font-size: 2.5rem;
       margin-bottom: 20px;
+      font-weight: 700;
+      background: linear-gradient(to right, #ffffff, #e0e0e0);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      opacity: 0;
+      animation: fadeIn 0.8s 0.5s forwards;
     }
 
-    .typing-text {
-      color: #e0e0e0;
-      font-size: 1rem;
-      white-space: nowrap;
-      overflow: hidden;
-      border-right: 2px solid rgba(255,255,255,0.75);
-      animation: typing 3s steps(40, end), blink 0.75s step-end infinite;
+    .message {
+      color: rgba(255, 255, 255, 0.9);
+      font-size: 1.2rem;
+      line-height: 1.6;
+      margin-bottom: 30px;
+      position: relative;
+      opacity: 0;
+      animation: fadeIn 0.8s 0.7s forwards;
+      padding: 0 20px;
     }
 
-
-    @keyframes typing {
-      from { width: 0; }
-      to { width: 100%; }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
-    @keyframes blink {
-      50% { border-color: transparent; }
+    .button-container {
+      opacity: 0;
+      animation: fadeIn 0.8s 0.9s forwards;
     }
 
     .home-btn {
-      margin-top: 30px;
-      background: #fff;
-      color: #333;
+      background: linear-gradient(45deg, #00c9a7, #3ad59f);
+      color: white;
       border: none;
-      padding: 12px 25px;
-      border-radius: 30px;
+      padding: 14px 32px;
+      border-radius: 50px;
+      font-size: 1rem;
       font-weight: 600;
       cursor: pointer;
-      transition: 0.3s ease;
+      transition: all 0.3s ease;
+      box-shadow: 0 5px 15px rgba(0, 201, 167, 0.4);
+      position: relative;
+      overflow: hidden;
+      display: inline-block;
     }
 
     .home-btn:hover {
-      background: #00c9a7;
-      color: white;
-      transform: scale(1.05);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(0, 201, 167, 0.5);
     }
 
-    @media(max-width: 500px) {
+    .home-btn:active {
+      transform: translateY(1px);
+    }
+    
+    .home-btn i {
+      margin-right: 8px;
+    }
+
+    .confetti {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background-color: #00c9a7;
+      animation: confetti 5s ease-in-out infinite;
+    }
+
+    @keyframes confetti {
+      0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(1000px) rotate(720deg); opacity: 0; }
+    }
+
+    @media(max-width: 600px) {
       .card {
-        padding: 30px 20px;
+        padding: 40px 25px;
+        width: 85%;
+      }
+      
+      h1 {
+        font-size: 2rem;
+      }
+      
+      .message {
+        font-size: 1rem;
+      }
+      
+      .success-icon {
+        width: 100px;
+        height: 100px;
+        margin-bottom: 25px;
+      }
+      
+      .checkmark {
+        font-size: 50px;
       }
     }
   </style>
 </head>
 <body>
-  <div class="card">
-    <div class="checkmark"></div>
-    <h1>Thank You!</h1>
-    <p class="typing-text">Your message has been successfully sent.🚀</p>
-    <button class="home-btn" onclick="window.location.href='https://speedtestokla.vercel.app/'">Back to Home</button>
+  <!-- Background animated shapes -->
+  <div class="background-shapes">
+    <div class="shape1"></div>
+    <div class="shape2"></div>
+    <div class="shape3"></div>
+    <div class="shape4"></div>
   </div>
+
+  <div class="card">
+    <div class="success-icon">
+      <div class="circle">
+        <i class="fas fa-check checkmark"></i>
+      </div>
+    </div>
+    <h1>Thank You!</h1>
+    <div class="message">
+      <p>Your message has been successfully sent. We'll get back to you as soon as possible. 🚀</p>
+    </div>
+    <div class="button-container">
+      <button class="home-btn" onclick="window.location.href='https://speedtestokla.vercel.app/'">
+        <i class="fas fa-home"></i>Back to Home
+      </button>
+    </div>
+  </div>
+
+  <script>
+    // Create animated confetti effect
+    document.addEventListener('DOMContentLoaded', function() {
+      const colors = ['#00c9a7', '#4b6cb7', '#8e9efc', '#ffffff'];
+      const confettiCount = 100;
+      
+      for (let i = 0; i < confettiCount; i++) {
+        createConfetti();
+      }
+      
+      function createConfetti() {
+        const confetti = document.createElement('div');
+        confetti.className = 'confetti';
+        
+        const size = Math.random() * 10 + 5;
+        const color = colors[Math.floor(Math.random() * colors.length)];
+        
+        confetti.style.width = `${size}px`;
+        confetti.style.height = `${size}px`;
+        confetti.style.background = color;
+        
+        confetti.style.left = `${Math.random() * 100}%`;
+        confetti.style.top = `${-Math.random() * 20}%`;
+        confetti.style.opacity = Math.random();
+        confetti.style.animationDuration = `${Math.random() * 3 + 2}s`;
+        confetti.style.animationDelay = `${Math.random() * 5}s`;
+        
+        document.body.appendChild(confetti);
+        
+        // Remove after animation completes
+        setTimeout(() => {
+          confetti.remove();
+        }, 5000);
+      }
+    });
+  </script>
 </body>
 </html>
