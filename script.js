@@ -41,6 +41,7 @@ let downloadSpeed = 0;
 let uploadSpeed = 0;
 let pingTime = 0;
 let jitterTime = 0;
+let testDate = new Date(); // Add this to track test date
 
 // Initialize the application
 document.addEventListener('DOMContentLoaded', function() {
@@ -66,6 +67,68 @@ function initializeApp() {
     
     // Get initial network information
     fetchNetworkInfo();
+}
+
+// Functions for saving and retrieving test results
+function saveTestResult() {
+    testDate = new Date(); // Update test date to current time
+    const testResult = {
+        id: Date.now(), // Unique ID for the test
+        date: testDate.toISOString(),
+        formattedDate: testDate.toLocaleString(),
+        download: downloadSpeed.toFixed(2),
+        upload: uploadSpeed.toFixed(2),
+        ping: pingTime.toFixed(0),
+        jitter: jitterTime.toFixed(1),
+        isp: document.getElementById('ispInfo').textContent,
+        server: document.getElementById('serverInfo').textContent,
+        ip: document.getElementById('ipInfo').textContent
+    };
+
+    // Get existing results or initialize empty array
+    const savedResults = JSON.parse(localStorage.getItem('speedTestResults') || '[]');
+    
+    // Add new result to the array
+    savedResults.push(testResult);
+    
+    // Save back to localStorage
+    localStorage.setItem('speedTestResults', JSON.stringify(savedResults));
+    
+    return testResult;
+}
+
+function getTestResults() {
+    return JSON.parse(localStorage.getItem('speedTestResults') || '[]');
+}
+
+function getLastTestResult() {
+    const results = getTestResults();
+    return results.length > 0 ? results[results.length - 1] : null;
+}
+
+function deleteTestResult(id) {
+    // Convert id to number if it's a string
+    const numId = Number(id);
+    
+    // Get the current saved results
+    let savedResults = JSON.parse(localStorage.getItem('speedTestResults') || '[]');
+    
+    // Filter out the result with the matching ID
+    const filteredResults = savedResults.filter(result => result.id !== numId);
+    
+    // Save the filtered results back to localStorage
+    localStorage.setItem('speedTestResults', JSON.stringify(filteredResults));
+    
+    // Log for debugging
+    console.log(`Deleted test result with ID: ${numId}. ${savedResults.length - filteredResults.length} result(s) removed.`);
+    
+    return filteredResults.length < savedResults.length; // Return true if a result was deleted
+}
+
+// Function to get a specific test result by ID
+function getTestResultById(id) {
+    const results = getTestResults();
+    return results.find(result => result.id === Number(id));
 }
 
 // UI Helpers
@@ -378,6 +441,7 @@ function completeTest() {
     updateTestSteps('complete');
     updateProgress(100);
     displayResults();
+    saveTestResult(); // Save test result to localStorage
     showStartButton();
     testInProgress = false;
 }
@@ -401,133 +465,364 @@ document.getElementById('shareBtn').addEventListener('click', function() {
 });
 
 document.getElementById('saveBtn').addEventListener('click', function() {
-    // In a real app, this would save to a database or local storage
-    alert('Results saved! You can view your history in the Results tab.');
+    // Save the test result and redirect to thank-you page with data in URL
+    const result = saveTestResult();
+    alert('Test result saved!');
 });
 
+// Navigation functionality
+document.addEventListener('DOMContentLoaded', function() {
+    // Toggle navigation on mobile
+    const navToggle = document.getElementById('navToggle');
+    const navList = document.getElementById('navList');
+    
+    if (navToggle) {
+        navToggle.addEventListener('click', function() {
+            navList.classList.toggle('active');
+        });
+    }
 
-       // Navigation functionality
-        document.addEventListener('DOMContentLoaded', function() {
-            // Toggle navigation on mobile
-            const navToggle = document.getElementById('navToggle');
-            const navList = document.getElementById('navList');
-            
-            if (navToggle) {
-                navToggle.addEventListener('click', function() {
-                    navList.classList.toggle('active');
-                });
-            }
+    // Page navigation functionality
+    const homeLink = document.getElementById('homeLink');
+    const aboutLink = document.getElementById('aboutLink');
+    const contactLink = document.getElementById('contactLink');
+    const resultsLink = document.getElementById('resultsLink');
+    const mainContent = document.getElementById('mainContent');
+    const aboutPage = document.getElementById('aboutPage');
+    const contactPage = document.getElementById('contactPage');
+    const resultsPage = document.getElementById('resultsPage');
+    
+    // Function to hide all pages
+    function hideAllPages() {
+        mainContent.classList.add('hidden');
+        aboutPage.classList.remove('visible');
+        contactPage.classList.remove('visible');
+        resultsPage.style.display = 'none';
+        
+        // Remove active class from all nav items
+        document.querySelectorAll('.nav-item a').forEach(item => {
+            item.classList.remove('active');
+        });
+    }
+    
+    // Home page
+    if (homeLink) {
+        homeLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            hideAllPages();
+            mainContent.classList.remove('hidden');
+            homeLink.classList.add('active');
+        });
+    }
+    
+    // About page
+    if (aboutLink) {
+        aboutLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            hideAllPages();
+            aboutPage.classList.add('visible');
+            aboutLink.classList.add('active');
+        });
+    }
+    
+    // Contact page
+    if (contactLink) {
+        contactLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            hideAllPages();
+            contactPage.classList.add('visible');
+            contactLink.classList.add('active');
+        });
+    }
 
-            // Page navigation functionality
-            const homeLink = document.getElementById('homeLink');
-            const aboutLink = document.getElementById('aboutLink');
-            const contactLink = document.getElementById('contactLink');
-            const mainContent = document.getElementById('mainContent');
-            const aboutPage = document.getElementById('aboutPage');
-            const contactPage = document.getElementById('contactPage');
+    // Results page
+    if (resultsLink) {
+        resultsLink.addEventListener('click', function(e) {
+            e.preventDefault();
             
-            // Function to hide all pages
-            function hideAllPages() {
-                mainContent.classList.add('hidden');
-                aboutPage.classList.remove('visible');
-                contactPage.classList.remove('visible');
-                
-                // Remove active class from all nav items
-                document.querySelectorAll('.nav-item a').forEach(item => {
-                    item.classList.remove('active');
-                });
-            }
-            
-            // Home page
-            if (homeLink) {
-                homeLink.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    hideAllPages();
-                    mainContent.classList.remove('hidden');
-                    homeLink.classList.add('active');
-                });
-            }
-            
-            // About page
-            if (aboutLink) {
-                aboutLink.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    hideAllPages();
-                    aboutPage.classList.add('visible');
-                    aboutLink.classList.add('active');
-                });
-            }
-            
-            // Contact page
-            if (contactLink) {
-                contactLink.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    hideAllPages();
-                    contactPage.classList.add('visible');
-                    contactLink.classList.add('active');
-                });
-            }
-
-            // Modal functionality
-            const privacyLink = document.getElementById('privacyPolicyLink');
-            const termsLink = document.getElementById('termsOfServiceLink');
-            const privacyModal = document.getElementById('privacyPolicyModal');
-            const termsModal = document.getElementById('termsOfServiceModal');
-            
-            // Open modals
-            privacyLink.addEventListener('click', function(e) {
-                e.preventDefault();
-                privacyModal.style.display = 'block';
+            // Remove active class from all nav links
+            document.querySelectorAll('.nav-item a').forEach(link => {
+                link.classList.remove('active');
             });
             
-            termsLink.addEventListener('click', function(e) {
-                e.preventDefault();
-                termsModal.style.display = 'block';
-            });
+            // Add active class to results link
+            this.classList.add('active');
             
-            // Close modals when clicking on X
-            document.querySelectorAll('.close-policy-modal').forEach(function(closeBtn) {
-                closeBtn.addEventListener('click', function() {
-                    privacyModal.style.display = 'none';
-                    termsModal.style.display = 'none';
-                });
-            });
+            // Hide other pages and show results page
+            hideAllPages();
+            resultsPage.style.display = 'block';
             
-            // Close modals when clicking outside
-            window.addEventListener('click', function(event) {
-                if (event.target === privacyModal) {
-                    privacyModal.style.display = 'none';
-                }
-                if (event.target === termsModal) {
-                    termsModal.style.display = 'none';
-                }
-            });
+            // Display results history
+            displayResultsHistory();
+            
+            // Reset details view
+            document.getElementById('resultsHistoryList').style.display = 'block';
+            document.getElementById('resultDetails').classList.add('hidden');
+        });
+    }
 
-            // Server modal existing functionality
-            const changeServer = document.getElementById('changeServer');
-            const serverModal = document.getElementById('serverModal');
-            const closeServerModal = document.getElementById('closeServerModal');
-            const confirmServerSelection = document.getElementById('confirmServerSelection');
-            
-            if (changeServer) {
-                changeServer.addEventListener('click', function() {
-                    serverModal.style.display = 'block';
-                });
-            }
-            
-            if (closeServerModal) {
-                closeServerModal.addEventListener('click', function() {
-                    serverModal.style.display = 'none';
-                });
-            }
-            
-            if (confirmServerSelection) {
-                confirmServerSelection.addEventListener('click', function() {
-                    // Handle server selection
-                    serverModal.style.display = 'none';
-                });
+    // Modal functionality
+    const privacyLink = document.getElementById('privacyPolicyLink');
+    const termsLink = document.getElementById('termsOfServiceLink');
+    const privacyModal = document.getElementById('privacyPolicyModal');
+    const termsModal = document.getElementById('termsOfServiceModal');
+    
+    // Open modals
+    privacyLink.addEventListener('click', function(e) {
+        e.preventDefault();
+        privacyModal.style.display = 'block';
+    });
+    
+    termsLink.addEventListener('click', function(e) {
+        e.preventDefault();
+        termsModal.style.display = 'block';
+    });
+    
+    // Close modals when clicking on X
+    document.querySelectorAll('.close-policy-modal').forEach(function(closeBtn) {
+        closeBtn.addEventListener('click', function() {
+            privacyModal.style.display = 'none';
+            termsModal.style.display = 'none';
+        });
+    });
+    
+    // Close modals when clicking outside
+    window.addEventListener('click', function(event) {
+        if (event.target === privacyModal) {
+            privacyModal.style.display = 'none';
+        }
+        if (event.target === termsModal) {
+            termsModal.style.display = 'none';
+        }
+    });
+
+    // Server modal existing functionality
+    const changeServer = document.getElementById('changeServer');
+    const serverModal = document.getElementById('serverModal');
+    const closeServerModal = document.getElementById('closeServerModal');
+    const confirmServerSelection = document.getElementById('confirmServerSelection');
+    
+    if (changeServer) {
+        changeServer.addEventListener('click', function() {
+            serverModal.style.display = 'block';
+        });
+    }
+    
+    if (closeServerModal) {
+        closeServerModal.addEventListener('click', function() {
+            serverModal.style.display = 'none';
+        });
+    }
+    
+    if (confirmServerSelection) {
+        confirmServerSelection.addEventListener('click', function() {
+            // Handle server selection
+            serverModal.style.display = 'none';
+        });
+    }
+
+    // Add event listener for backToList button
+    document.getElementById('backToList').addEventListener('click', function() {
+        document.getElementById('resultsHistoryList').style.display = 'block';
+        document.getElementById('resultDetails').classList.add('hidden');
+    });
+    
+    // Add event listener for delete detail button
+    document.getElementById('deleteDetailBtn').addEventListener('click', function() {
+        const id = this.dataset.id;
+        if (confirm('Are you sure you want to delete this result?')) {
+            deleteTestResult(id);
+            document.getElementById('resultsHistoryList').style.display = 'block';
+            document.getElementById('resultDetails').classList.add('hidden');
+            displayResultsHistory();
+        }
+    });
+    
+    // Add event listener for share detail button
+    document.getElementById('shareDetailBtn').addEventListener('click', function() {
+        const id = this.dataset.id;
+        const result = getTestResultById(id);
+        
+        if (!result) return;
+        
+        const resultText = `My Internet Speed Test Results: Download: ${result.download} Mbps, Upload: ${result.upload} Mbps, Ping: ${result.ping} ms`;
+        
+        if (navigator.share) {
+            navigator.share({
+                title: 'My Internet Speed Test Results',
+                text: resultText,
+                url: window.location.href
+            })
+            .catch(error => console.error('Error sharing:', error));
+        } else {
+            navigator.clipboard.writeText(resultText)
+                .then(() => alert('Results copied to clipboard!'))
+                .catch(err => console.error('Could not copy text: ', err));
+        }
+    });
+});
+
+// Function to display the results history
+function displayResultsHistory() {
+    const resultsHistoryList = document.getElementById('resultsHistoryList');
+    const results = getTestResults();
+    
+    // Clear the list
+    resultsHistoryList.innerHTML = '';
+    
+    if (results.length === 0) {
+        resultsHistoryList.innerHTML = '<div class="empty-history">No test history found. Run a speed test to see your results here.</div>';
+        return;
+    }
+    
+    // Sort results by date (newest first)
+    results.sort((a, b) => new Date(b.date) - new Date(a.date));
+    
+    // Create history items
+    results.forEach(result => {
+        const resultItem = document.createElement('div');
+        resultItem.className = 'result-item';
+        resultItem.dataset.id = result.id;
+        
+        resultItem.innerHTML = `
+            <div class="result-date">${result.formattedDate}</div>
+            <div class="result-speeds">
+                <div class="result-speed">
+                    <div class="result-speed-label">Download</div>
+                    <div class="result-speed-value">${result.download} Mbps</div>
+                </div>
+                <div class="result-speed">
+                    <div class="result-speed-label">Upload</div>
+                    <div class="result-speed-value">${result.upload} Mbps</div>
+                </div>
+            </div>
+            <div class="result-actions">
+                <button class="result-btn view-btn" data-id="${result.id}" title="View Details">
+                    <i class="fas fa-eye"></i>
+                </button>
+                <button class="result-btn delete-btn" data-id="${result.id}" title="Delete">
+                    <i class="fas fa-trash"></i>
+                </button>
+            </div>
+        `;
+        
+        resultsHistoryList.appendChild(resultItem);
+    });
+    
+    // Add event listeners
+    addResultItemEventListeners();
+}
+
+// Function to display result details
+function displayResultDetails(result) {
+    if (!result) return;
+    
+    // Hide results list and show details
+    document.getElementById('resultsHistoryList').style.display = 'none';
+    document.getElementById('resultDetails').classList.remove('hidden');
+    
+    // Set result values
+    document.getElementById('resultDate').textContent = `Date: ${result.formattedDate}`;
+    document.getElementById('detailDownload').textContent = result.download;
+    document.getElementById('detailUpload').textContent = result.upload;
+    document.getElementById('detailPing').textContent = result.ping;
+    document.getElementById('detailJitter').textContent = result.jitter;
+    document.getElementById('detailISP').textContent = result.isp;
+    document.getElementById('detailServer').textContent = result.server;
+    document.getElementById('detailIP').textContent = result.ip;
+    
+    // Set up delete button
+    const deleteBtn = document.getElementById('deleteDetailBtn');
+    deleteBtn.dataset.id = result.id;
+    
+    // Set up share button
+    document.getElementById('shareDetailBtn').dataset.id = result.id;
+}
+
+// Function to add event listeners to result items
+function addResultItemEventListeners() {
+    // Add click event to result items
+    document.querySelectorAll('.result-item').forEach(item => {
+        item.addEventListener('click', function(e) {
+            if (!e.target.closest('.result-btn')) {
+                const id = this.dataset.id;
+                const result = getTestResultById(id);
+                displayResultDetails(result);
             }
         });
+    });
+    
+    // Add click event to view buttons
+    document.querySelectorAll('.view-btn').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            const id = this.dataset.id;
+            const result = getTestResultById(id);
+            displayResultDetails(result);
+        });
+    });
+    
+    // Add click event to delete buttons
+    document.querySelectorAll('.delete-btn').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            const id = this.dataset.id;
+            if (confirm('Are you sure you want to delete this result?')) {
+                deleteTestResult(id);
+                displayResultsHistory();
+            }
+        });
+    });
+}
+
+// Make sure delete functionality works in the result detail view
+function showResultDetails(resultId) {
+    const result = getTestResultById(resultId);
+    if (!result) return;
+    
+    // Set details in the view
+    document.getElementById('resultDate').textContent = `Date: ${result.formattedDate}`;
+    document.getElementById('detailDownload').textContent = result.download;
+    document.getElementById('detailUpload').textContent = result.upload;
+    document.getElementById('detailPing').textContent = result.ping;
+    document.getElementById('detailJitter').textContent = result.jitter;
+    document.getElementById('detailISP').textContent = result.isp || 'N/A';
+    document.getElementById('detailServer').textContent = result.server || 'N/A';
+    document.getElementById('detailIP').textContent = result.ip || 'N/A';
+    
+    // Make sure the delete button has the current result ID
+    const deleteBtn = document.getElementById('deleteDetailBtn');
+    deleteBtn.setAttribute('data-id', resultId);
+    
+    // Set up share button with the current result ID
+    const shareBtn = document.getElementById('shareDetailBtn');
+    shareBtn.setAttribute('data-id', resultId);
+    
+    // Hide the results list and show the detail view
+    document.getElementById('resultsHistoryList').style.display = 'none';
+    document.getElementById('resultDetails').classList.remove('hidden');
+}
+
+// Event handler for detail view delete button
+document.addEventListener('DOMContentLoaded', function() {
+    const deleteDetailBtn = document.getElementById('deleteDetailBtn');
+    if (deleteDetailBtn) {
+        deleteDetailBtn.addEventListener('click', function() {
+            const resultId = this.getAttribute('data-id');
+            if (resultId && confirm('Are you sure you want to delete this result?')) {
+                if (deleteTestResult(resultId)) {
+                    // Successfully deleted, return to list view
+                    document.getElementById('resultsHistoryList').style.display = 'block';
+                    document.getElementById('resultDetails').classList.add('hidden');
+                    // Refresh the list
+                    displayResultsHistory();
+                } else {
+                    alert('Failed to delete result. Please try again.');
+                }
+            }
+        });
+    }
+});
 
 async function fetchISPDetails() {
     try {
